@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Great+Vibes" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <meta name="application-name" content="MegaFlash XYZ Tab Typer">
+        <meta name="description" content="A simple, offline-first text editor for your next browser tab.">
+        <meta name="author" content="MegaFlash XYZ">
+        <link href="images/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32">
+        <link href="images/favicon-16x16.png" rel="icon" type="image/png" sizes="16x16">
+        <title>MegaFlash TabTyper</title>
+    </head>
+    <body class="no-scroll">
+        <div class="background"></div>
+        <header>
+            <button id="menu-toggle" class="btn">Menu</button>
+            <h1 class="unselectable">MegaFlash TabTyper</h1>
+            <button id="new" class="btn">New File</button>
+        </header>
+        <div class="menu-background">
+            <section class="menu">
+                <h2>Menu</h2>
+                <span class="file-list-toggle unselectable hidden">
+                    <label for="show-deleted">Show deleted files</label>
+                    <input id="show-deleted" name="show-deleted" type="checkbox">
+                </span>
+                <p id="file-message"></p>
+                <!-- TODO: Instead of dynamically populating #file-message, store information here in HTML.
+                            Then just toggle which message sohuld be visible with JS.
+                -->
+                <!-- TODO: Only allow text files to be uploaded. -->
+                <p>You can also upload a local file to edit: <input type="file" id="file-upload" accept="text/plain"></p>
+                <ul id="file-list" class="unselectable"></ul>
+            </section>
+        </div>
+        <div class="content-wrapper no-scroll">
+            <main class="paper">
+                <input id="file-name" type="text" value="" placeholder="Enter filename" required>
+                <span id="last-save" class="unselectable"></span>
+                <textarea id="editor"></textarea>
+                <script src="https://cdn.jsdelivr.net/npm/localforage@1.6.0/dist/localforage.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/file-saver@1.3.8/FileSaver.min.js"></script>
+                <script src="text-editor.js"></script>
+                <script src="main.js"></script>
+            </main>
+        </div>
+    </body>
+</html>

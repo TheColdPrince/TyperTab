@@ -1,0 +1,454 @@
+:root {
+    --content-max-width: 800px;
+    --header-height: 77px;
+    --editor-min-height: 1000px;
+    --header-offset: 25px;
+    --light-gray: #999;
+}
+
+html {
+    min-width: 380px;
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
+body {
+    padding: 0;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+    margin: 0;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: -2;
+}
+
+header {
+    height: var(--header-height);
+    background-color: #F7F9FC;
+    position: fixed;
+    width: 100vw;
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header button {
+    padding: 15px 20px;
+    width: 100px;
+}
+
+header button:first-child {
+    margin-left: 15px;
+}
+
+header button:last-child {
+    margin-right: 15px;
+}
+
+.btn {
+    border: 0;
+    background-color: #C2E7FF;
+    font-family: Consolas, monospace;
+    transition: width 0.1s ease-out,
+                height 0.1s ease-out;
+    border-radius: 18px;
+    outline: 0;
+}
+
+.btn:hover {
+    cursor: pointer;
+    transition: width 0.05s ease-in,
+                height 0.05s ease-in;
+    transform: scale(1.02);
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 35px;
+    height: 70%;
+}
+
+#file-name {
+    text-align: center;
+    font-family: Consolas, monospace;
+    font-size: 30px;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    margin: 50px auto 15px;
+    background: transparent;
+    border: 1px dotted transparent;
+}
+
+#file-name::placeholder {
+    font-weight: 200;
+    color: var(--light-gray);
+}
+
+#file-name:invalid {
+    border: 1px dotted transparent;
+    border-bottom-color: #F7F9FC;
+    box-shadow: none;
+}
+
+.menu-background {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: #F7F9FC;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: scroll;
+}
+
+.menu {
+    z-index: 3;
+    background: #C2E7FF;
+    padding: 10px;
+    border-radius: 18px;
+    min-width: 300px;
+    width: 90vw;
+    max-width: 600px;
+    margin-top: calc(var(--header-height) + var(--header-offset));
+}
+
+.menu h2,
+.menu p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.menu h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+#file-list {
+    list-style: none;
+    padding: 0;
+}
+
+#file-list li {
+    padding: 8px 14px;
+    margin: 15px;
+    height: 54px;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#file-list .file-actions {
+    display: flex;
+    align-items: center;
+}
+
+#file-list li:hover button,
+#file-list li:hover span {
+    justify-content: center;
+    visibility: visible;
+}
+
+#file-list li:hover span {
+    cursor: help;
+}
+
+#file-list li:first-child {
+    margin-top: 0;
+}
+
+#file-list button,
+#file-list span {
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+    height: 40px;
+    color: #222;
+    font-size: 20px;
+    outline: 0;
+    padding: 0 10px;
+    border-radius: 50%;
+    width: 40px;
+    padding: 0;
+    margin: 0 2px;
+}
+
+#file-list li.deleted-file {
+    cursor: default;
+}
+
+#last-save {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-style: italic;
+    color: var(--light-gray);
+}
+
+#last-save:empty,
+#file-list:empty {
+    display: none;
+}
+
+.file-list-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px auto 20px;
+    width: 200px;
+    padding: 5px;
+}
+
+.file-list-toggle:hover {
+    background: #f0f3f5;
+}
+
+.file-list-toggle label {
+    flex: 1;
+    font-size: 16px;
+    align-self: center;
+}
+
+.file-list-toggle label,
+.file-list-toggle input {
+    cursor: pointer;
+}
+
+[data-tooltip] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -100px;
+    padding: 7px;
+    width: 200px;
+    border-radius: 3px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 20%, 0.9);
+    color: #fff;
+    content: attr(data-tooltip);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    border-top: 5px solid #000;
+    border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    visibility: visible;
+    opacity: 1;
+}
+
+input[type="checkbox"] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: white;
+    border: 2px solid var(--light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    outline: 0;
+}
+
+input[type="checkbox"]::after {
+    font-weight: 400;
+    font-size: 22px;
+    margin-bottom: 1px;
+}
+
+input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: black;
+}
+
+input[type="checkbox"]:not(:checked):hover::after {
+    content: '✓';
+    color: var(--light-gray);
+}
+
+.content-wrapper {
+    position: absolute;
+    overflow-y: scroll;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+main {
+    padding: 0 50px 35px;
+    max-width: var(--content-max-width);
+    display: flex;
+    flex: 1;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 1000px;
+    margin: var(--header-offset) auto 100px;
+}
+
+/*
+www.megaflash.xyz
+*/
+.paper {
+    position: relative;
+	background-color: #F7F9FC;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .2), inset 0 0 100px rgba(0, 0, 0, .05);
+}
+
+.paper:before,
+.paper:after {
+	position: absolute;
+	width: 40%;
+	height: 10px;
+	content: ' ';
+	left: 12px;
+	bottom: 14px;
+	background: transparent;
+	transform: skew(-5deg) rotate(-5deg);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, .3);
+	z-index: -1;
+}
+
+.paper:after {
+	left: auto;
+	right: 12px;
+	transform: skew(5deg) rotate(5deg);
+}
+
+textarea {
+    background: transparent;
+    outline: none;
+    border: none;
+    padding: 10px 15px;
+    min-width: 100%;
+    min-height: calc(var(--editor-min-height) - 50px);
+    resize: none;
+    font-size: 20px;
+    letter-spacing: .6px;
+    font-family: 'Crimson Text', serif;
+    overflow-y: hidden;
+}
+
+.unselectable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.hidden {
+    display: none;
+}
+
+@media screen and (max-width: 800px) {
+    #file-name {
+        font-size: 27px;
+    }
+
+    main {
+        margin: 0;
+        padding: 0 20px 35px;
+    }
+
+    textarea {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    :root {
+        --header-height: 50px;
+        --header-offset: 15px;
+    }
+
+    header h1 {
+        font-size: 40px;
+    }
+
+    header button {
+        padding: 12px 5px;
+        width: 80px;
+    }
+
+    header button:first-child {
+        margin-left: 5px;
+    }
+
+    header button:last-child {
+        margin-right: 5px;
+    }
+
+    #file-name {
+        font-size: 24px;
+    }
+
+    #last-save {
+        font-size: 14px;
+        right: 15px;
+    }
+
+    main {
+        padding: 0 0 35px;
+    }
+
+    textarea {
+        font-size: 16px;
+    }
+}
